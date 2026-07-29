@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iDriveElectric — The Marketplace for People Who Drive Electric</title>
+<meta name="description" content="Find your next EV. New and used electric vehicles, listed by people who actually own them. Launching soon — get early access.">
+<meta name="theme-color" content="#00E5FF">
+<meta property="og:title" content="iDriveElectric — The Marketplace for People Who Drive Electric">
+<meta property="og:description" content="New and used electric vehicles, listed by people who actually own them.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://idriveelectric.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230A0E1A' rx='6'/%3E%3Cpath d='M12 6l-4 14h6l-2 6 10-14h-6l2-6z' fill='%2300E5FF'/%3E%3C/svg%3E">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif']
+      },
+      colors: {
+        ink:    { 950: '#06080F', 900: '#0A0E1A', 800: '#10172A', 700: '#1A2440', 600: '#2A3658', 500: '#475878' },
+        cyan:   { 300: '#67F5FF', 400: '#33EAFF', 500: '#00E5FF', 600: '#00BCD4' },
+        volt:   { 400: '#4ADE80', 500: '#22C55E', 600: '#16A34A' },
+        bone:   { 50: '#F5F7FA', 100: '#E7ECF3', 200: '#C9D2DE' }
+      }
+    }
+  }
+}
+</script>
+<style>
+  body { font-family: 'Inter', system-ui, sans-serif; }
+  .font-display { font-family: 'Space Grotesk', system-ui, sans-serif; }
+  *:focus-visible {
+    outline: 3px solid #00E5FF;
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(0,229,255,.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,.06) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+  .grad-cyan-volt {
+    background: linear-gradient(120deg, #00E5FF 0%, #22C55E 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .glow {
+    box-shadow: 0 0 0 1px rgba(0,229,255,.4), 0 8px 40px -8px rgba(0,229,255,.5);
+  }
+  .grad-bg-card {
+    background: linear-gradient(160deg, rgba(0,229,255,.08), rgba(34,197,94,.04) 60%, transparent);
+  }
+  .glow-blob {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(120px);
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .pulse-dot { animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .reveal { opacity: 0; transform: translateY(20px); animation: rise .7s ease-out forwards; }
+    .reveal-2 { animation-delay: .12s; }
+    .reveal-3 { animation-delay: .24s; }
+    @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+  }
+</style>
+</head>
+<body class="bg-ink-900 text-bone-50 antialiased">
+
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 bg-cyan-500 text-ink-950 px-4 py-2 rounded-md z-50 text-sm font-bold">Skip to content</a>
+
+<header class="sticky top-0 z-30 border-b border-white/5 bg-ink-900/85 backdrop-blur">
+  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-2.5" aria-label="iDriveElectric home">
+      <span class="w-8 h-8 rounded-lg bg-ink-800 grid place-items-center" aria-hidden="true">
+        <svg class="w-4 h-5" viewBox="0 0 24 32" fill="none" aria-hidden="true"><path d="M14 0L4 18h6l-2 14L20 12h-6l2-12z" fill="#00E5FF"/></svg>
+      </span>
+      <span class="font-display font-bold text-lg tracking-tight">iDrive<span class="text-cyan-500">Electric</span></span>
+    </a>
+    <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-bone-200" aria-label="Primary">
+      <a href="#browse" class="hover:text-cyan-400 transition-colors">Browse</a>
+      <a href="#how" class="hover:text-cyan-400 transition-colors">How it works</a>
+      <a href="#waitlist" class="hover:text-cyan-400 transition-colors">Early access</a>
+      <a href="#waitlist" class="inline-flex items-center gap-1.5 bg-cyan-500 text-ink-950 hover:bg-cyan-400 px-4 py-2 rounded-lg font-bold transition-colors min-h-[44px]">Join waitlist</a>
+    </nav>
+    <a href="#waitlist" class="md:hidden bg-cyan-500 text-ink-950 px-4 py-2 rounded-lg text-sm font-bold min-h-[44px] inline-flex items-center">Waitlist</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="relative overflow-hidden grid-bg">
+    <span class="glow-blob bg-cyan-500 w-[600px] h-[600px] top-[-200px] right-[-150px]" aria-hidden="true"></span>
+    <span class="glow-blob bg-volt-500 w-[400px] h-[400px] bottom-[-150px] left-[-100px] opacity-40" aria-hidden="true"></span>
+    <div class="relative max-w-7xl mx-auto px-6 pt-20 pb-24 md:pt-32 md:pb-32">
+      <div class="max-w-4xl reveal">
+        <div class="inline-flex items-center gap-2 bg-ink-800 border border-cyan-500/30 px-3 py-1.5 rounded-full text-xs font-semibold mb-7 text-cyan-300">
+          <span class="w-1.5 h-1.5 bg-volt-400 rounded-full pulse-dot" aria-hidden="true"></span>
+          Marketplace launching — Q3 2026
+        </div>
+        <h1 class="font-display text-5xl md:text-7xl lg:text-[5.5rem] font-bold leading-[1.02] tracking-tight mb-7">
+          Find your <br><span class="grad-cyan-volt">next EV.</span>
+        </h1>
+        <p class="text-lg md:text-xl text-bone-200/85 leading-relaxed mb-10 max-w-2xl">
+          The marketplace for people who actually drive electric. New, used, lease takeovers
+          &mdash; listed by owners and dealers who get the difference between range and
+          spec-sheet range.
+        </p>
+
+        <!-- Mock search bar -->
+        <form class="reveal reveal-2 max-w-3xl bg-ink-800/80 border border-white/10 rounded-2xl p-2 flex flex-col sm:flex-row gap-2 backdrop-blur" onsubmit="event.preventDefault(); document.getElementById('waitlist-email').focus(); window.location.hash='#waitlist'">
+          <label class="flex-1 flex items-center gap-3 px-4 py-3">
+            <svg class="w-5 h-5 text-bone-200/60 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            <span class="sr-only">Search make or model</span>
+            <input class="bg-transparent text-bone-50 placeholder-bone-200/50 w-full outline-none text-base" placeholder="Try Model 3, Ioniq 5, Lightning..." aria-label="Search EVs">
+          </label>
+          <div class="hidden sm:block w-px bg-white/10 my-2"></div>
+          <label class="flex items-center gap-2 px-4 py-3 text-base text-bone-200/70">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span class="sr-only">Region</span>
+            <select class="bg-transparent text-bone-200 outline-none appearance-none pr-2" aria-label="Region">
+              <option class="bg-ink-800">Canada</option>
+              <option class="bg-ink-800">United States</option>
+            </select>
+          </label>
+          <button type="submit" class="bg-cyan-500 hover:bg-cyan-400 text-ink-950 font-bold px-6 py-3 rounded-xl transition-colors min-h-[48px] inline-flex items-center justify-center gap-2">
+            Search
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+        </form>
+        <p class="text-xs text-bone-200/50 mt-4 reveal reveal-3">Search will go live alongside the marketplace. Join the waitlist to get notified.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BROWSE / SAMPLE LISTINGS -->
+  <section id="browse" class="py-24 md:py-32 bg-ink-950 relative">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-wrap items-end justify-between gap-6 mb-12">
+        <div class="max-w-2xl">
+          <div class="text-xs uppercase tracking-widest text-cyan-400 font-bold mb-4">Sample listings</div>
+          <h2 class="font-display text-4xl md:text-5xl font-bold leading-tight mb-4">
+            What you&rsquo;ll be browsing.
+          </h2>
+          <p class="text-bone-200/70">Illustrative cards &mdash; not real inventory yet.</p>
+        </div>
+        <div class="flex gap-2 text-sm">
+          <span class="px-3 py-1.5 bg-cyan-500/10 text-cyan-400 rounded-full border border-cyan-500/20 font-medium">All EVs</span>
+          <span class="px-3 py-1.5 bg-white/5 text-bone-200/70 rounded-full border border-white/5">Sedans</span>
+          <span class="px-3 py-1.5 bg-white/5 text-bone-200/70 rounded-full border border-white/5">Trucks</span>
+          <span class="px-3 py-1.5 bg-white/5 text-bone-200/70 rounded-full border border-white/5">SUVs</span>
+        </div>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <article class="rounded-2xl border border-white/5 bg-ink-800/60 overflow-hidden hover:border-cyan-500/40 transition-colors group">
+          <div class="aspect-[5/3] grad-bg-card relative grid place-items-center overflow-hidden">
+            <svg viewBox="0 0 200 100" class="w-3/4 text-cyan-400" aria-hidden="true"><path d="M30 70 L55 40 H145 L170 70 Z M50 70 V80 H60 V70 Z M140 70 V80 H150 V70 Z" fill="currentColor" opacity=".18"/><path d="M30 70 L55 40 H145 L170 70" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="55" cy="70" r="12" fill="#06080F" stroke="currentColor" stroke-width="2"/><circle cx="145" cy="70" r="12" fill="#06080F" stroke="currentColor" stroke-width="2"/></svg>
+            <span class="absolute top-3 left-3 bg-volt-500 text-ink-950 text-xs font-bold px-2 py-1 rounded">2024</span>
+          </div>
+          <div class="p-5">
+            <h3 class="font-display font-bold text-lg">Tesla Model 3 Long Range</h3>
+            <div class="text-sm text-bone-200/60 mb-3">All-wheel drive · 358 mi range</div>
+            <div class="flex items-center justify-between">
+              <span class="font-display text-xl font-bold text-cyan-400">$42,900</span>
+              <span class="text-xs text-bone-200/60">12,400 mi</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="rounded-2xl border border-white/5 bg-ink-800/60 overflow-hidden hover:border-cyan-500/40 transition-colors group">
+          <div class="aspect-[5/3] grad-bg-card relative grid place-items-center overflow-hidden">
+            <svg viewBox="0 0 200 100" class="w-3/4 text-cyan-400" aria-hidden="true"><path d="M25 70 L55 35 H105 L120 50 H175 V70 Z M50 70 V80 H62 V70 Z M150 70 V80 H162 V70 Z" fill="currentColor" opacity=".18"/><path d="M25 70 L55 35 H105 L120 50 H175 V70" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="55" cy="70" r="12" fill="#06080F" stroke="currentColor" stroke-width="2"/><circle cx="155" cy="70" r="12" fill="#06080F" stroke="currentColor" stroke-width="2"/></svg>
+            <span class="absolute top-3 left-3 bg-cyan-500 text-ink-950 text-xs font-bold px-2 py-1 rounded">2023</span>
+          </div>
+          <div class="p-5">
+            <h3 class="font-display font-bold text-lg">Ford F-150 Lightning Lariat</h3>
+            <div class="text-sm text-bone-200/60 mb-3">Extended range · 320 mi</div>
+            <div class="flex items-center justify-between">
+              <span class="font-display text-xl font-bold text-cyan-400">$58,500</span>
+              <span class="text-xs text-bone-200/60">8,200 mi</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="rounded-2xl border border-white/5 bg-ink-800/60 overflow-hidden hover:border-cyan-500/40 transition-colors group">
+          <div class="aspect-[5/3] grad-bg-card relative grid place-items-center overflow-hidden">
+            <svg viewBox="0 0 200 100" class="w-3/4 text-cyan-400" aria-hidden="true"><path d="M30 70 L52 38 H142 L168 56 V70 Z M50 70 V80 H62 V70 Z M140 70 V80 H152 V70 Z" fill="currentColor" opacity=".18"/><path d="M30 70 L52 38 H142 L168 56 V70" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="55" cy="70" r="12" fill="#06080F" stroke="currentColor" stroke-width="2"/><circle cx="145" cy="70" r="12" fill="#06080F" stroke="currentColor" stroke-width="2"/></svg>
+            <span class="absolute top-3 left-3 bg-volt-500 text-ink-950 text-xs font-bold px-2 py-1 rounded">2025</span>
+          </div>
+          <div class="p-5">
+            <h3 class="font-display font-bold text-lg">Hyundai Ioniq 5 N</h3>
+            <div class="text-sm text-bone-200/60 mb-3">AWD · 221 mi range · 641 hp</div>
+            <div class="flex items-center justify-between">
+              <span class="font-display text-xl font-bold text-cyan-400">$66,200</span>
+              <span class="text-xs text-bone-200/60">2,100 mi</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="rounded-2xl border border-white/5 bg-ink-800/60 overflow-hidden hover:border-cyan-500/40 transition-colors group">
+          <div class="aspect-[5/3] grad-bg-card relative grid place-items-center overflow-hidden">
+            <svg viewBox="0 0 200 100" class="w-3/4 text-cyan-400" aria-hidden="true"><path d="M28 70 L50 42 H150 L172 60 V70 Z M48 70 V80 H60 V70 Z M148 70 V80 H160 V70 Z" fill="currentColor" opacity=".18"/><path d="M28 70 L50 42 H150 L172 60 V70" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="55" cy="70" r="12" fill="#06080F" stroke="currentColor" stroke-width="2"/><circle cx="153" cy="70" r="12" fill="#06080F" stroke="currentColor" stroke-width="2"/></svg>
+            <span class="absolute top-3 left-3 bg-cyan-500 text-ink-950 text-xs font-bold px-2 py-1 rounded">2024</span>
+          </div>
+          <div class="p-5">
+            <h3 class="font-display font-bold text-lg">Rivian R1S Adventure</h3>
+            <div class="text-sm text-bone-200/60 mb-3">Quad-motor · 321 mi range</div>
+            <div class="flex items-center justify-between">
+              <span class="font-display text-xl font-bold text-cyan-400">$79,800</span>
+              <span class="text-xs text-bone-200/60">6,500 mi</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="rounded-2xl border border-white/5 bg-ink-800/60 overflow-hidden hover:border-cyan-500/40 transition-colors group">
+          <div class="aspect-[5/3] grad-bg-card relative grid place-items-center overflow-hidden">
+            <svg viewBox="0 0 200 100" class="w-3/4 text-cyan-400" aria-hidden="true"><path d="M30 70 L55 40 H145 L170 70 Z M50 70 V80 H60 V70 Z M140 70 V80 H150 V70 Z" fill="currentColor" opacity=".18"/><path d="M30 70 L55 40 H145 L170 70" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="55" cy="70" r="12" fill="#06080F" stroke="currentColor" stroke-width="2"/><circle cx="145" cy="70" r="12" fill="#06080F" stroke="currentColor" stroke-width="2"/></svg>
+            <span class="absolute top-3 left-3 bg-volt-500 text-ink-950 text-xs font-bold px-2 py-1 rounded">2023</span>
+          </div>
+          <div class="p-5">
+            <h3 class="font-display font-bold text-lg">Polestar 2 Dual Motor</h3>
+            <div class="text-sm text-bone-200/60 mb-3">AWD · 260 mi range</div>
+            <div class="flex items-center justify-between">
+              <span class="font-display text-xl font-bold text-cyan-400">$38,400</span>
+              <span class="text-xs text-bone-200/60">15,800 mi</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="rounded-2xl border border-white/5 bg-ink-800/60 overflow-hidden hover:border-cyan-500/40 transition-colors group">
+          <div class="aspect-[5/3] grad-bg-card relative grid place-items-center overflow-hidden">
+            <svg viewBox="0 0 200 100" class="w-3/4 text-cyan-400" aria-hidden="true"><path d="M28 70 L52 38 H148 L172 56 V70 Z M50 70 V80 H62 V70 Z M150 70 V80 H162 V70 Z" fill="currentColor" opacity=".18"/><path d="M28 70 L52 38 H148 L172 56 V70" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="55" cy="70" r="12" fill="#06080F" stroke="currentColor" stroke-width="2"/><circle cx="155" cy="70" r="12" fill="#06080F" stroke="currentColor" stroke-width="2"/></svg>
+            <span class="absolute top-3 left-3 bg-cyan-500 text-ink-950 text-xs font-bold px-2 py-1 rounded">2024</span>
+          </div>
+          <div class="p-5">
+            <h3 class="font-display font-bold text-lg">Kia EV9 GT-Line</h3>
+            <div class="text-sm text-bone-200/60 mb-3">3-row AWD · 270 mi range</div>
+            <div class="flex items-center justify-between">
+              <span class="font-display text-xl font-bold text-cyan-400">$64,900</span>
+              <span class="text-xs text-bone-200/60">4,700 mi</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how" class="py-24 md:py-32 bg-ink-900 border-t border-white/5">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="max-w-2xl mb-16">
+        <div class="text-xs uppercase tracking-widest text-cyan-400 font-bold mb-4">How it works</div>
+        <h2 class="font-display text-4xl md:text-5xl font-bold leading-tight">
+          Three steps. <span class="grad-cyan-volt">No dealer games.</span>
+        </h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-5">
+        <div class="bg-ink-800/60 border border-white/5 rounded-2xl p-8 relative">
+          <span class="absolute top-6 right-6 font-display text-7xl font-bold text-white/5 leading-none">01</span>
+          <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center mb-5 relative">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg>
+          </div>
+          <h3 class="font-display text-xl font-bold mb-2 relative">Search by what matters</h3>
+          <p class="text-sm text-bone-200/70 leading-relaxed relative">Real-world range, charge speed, heat pump, towing &mdash; filters built for actual EV drivers, not spec sheets.</p>
+        </div>
+        <div class="bg-ink-800/60 border border-white/5 rounded-2xl p-8 relative">
+          <span class="absolute top-6 right-6 font-display text-7xl font-bold text-white/5 leading-none">02</span>
+          <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center mb-5 relative">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <h3 class="font-display text-xl font-bold mb-2 relative">Talk to the owner</h3>
+          <p class="text-sm text-bone-200/70 leading-relaxed relative">Private sellers and verified dealers, both. Messaging in-app, charge history on file, battery health attached.</p>
+        </div>
+        <div class="bg-ink-800/60 border border-white/5 rounded-2xl p-8 relative">
+          <span class="absolute top-6 right-6 font-display text-7xl font-bold text-white/5 leading-none">03</span>
+          <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center mb-5 relative">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <h3 class="font-display text-xl font-bold mb-2 relative">Drive it home</h3>
+          <p class="text-sm text-bone-200/70 leading-relaxed relative">Optional pre-purchase battery diagnostic, secure escrow, financing partners that understand EVs. Or hand them a cheque &mdash; up to you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / EMAIL CAPTURE -->
+  <section id="waitlist" class="py-24 md:py-32 bg-ink-950 relative overflow-hidden">
+    <span class="glow-blob bg-cyan-500 w-[500px] h-[500px] top-[-100px] left-1/4" aria-hidden="true"></span>
+    <span class="glow-blob bg-volt-500 w-[400px] h-[400px] bottom-[-100px] right-1/4 opacity-40" aria-hidden="true"></span>
+    <div class="relative max-w-3xl mx-auto px-6 text-center">
+      <div class="text-xs uppercase tracking-widest text-cyan-400 font-bold mb-6">Early access</div>
+      <h2 class="font-display text-4xl md:text-6xl font-bold leading-tight mb-6">
+        Get in before <span class="grad-cyan-volt">listings open.</span>
+      </h2>
+      <p class="text-lg text-bone-200/80 max-w-xl mx-auto mb-10">
+        Drop your email. We&rsquo;ll send one note when the marketplace opens &mdash; and
+        nothing in between. No newsletter, no nurture sequence.
+      </p>
+      <form class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto" onsubmit="event.preventDefault(); document.getElementById('thanks').classList.remove('hidden'); document.getElementById('waitlist-form').classList.add('hidden')" id="waitlist-form">
+        <label class="flex-1 sr-only" for="waitlist-email">Email address</label>
+        <input id="waitlist-email" type="email" required placeholder="you@example.com" class="flex-1 bg-ink-800 border border-white/10 text-bone-50 placeholder-bone-200/40 px-5 py-4 rounded-xl outline-none focus:border-cyan-500 text-base min-h-[52px]" aria-label="Email address">
+        <button type="submit" class="bg-cyan-500 hover:bg-cyan-400 text-ink-950 font-bold px-7 py-4 rounded-xl transition-colors inline-flex items-center justify-center gap-2 min-h-[52px]">
+          Get early access
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </button>
+      </form>
+      <div id="thanks" class="hidden bg-volt-500/10 border border-volt-500/30 text-volt-400 rounded-xl px-6 py-4 max-w-lg mx-auto font-medium" role="status" aria-live="polite">
+        Got it. We&rsquo;ll be in touch when listings open.
+      </div>
+      <p class="text-xs text-bone-200/40 mt-6">No spam. Unsubscribe anytime. We&rsquo;ll never sell your address.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="border-t border-white/5 bg-ink-950 py-12">
+  <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+    <div class="flex items-center gap-2.5">
+      <span class="w-7 h-7 rounded-lg bg-ink-800 grid place-items-center" aria-hidden="true">
+        <svg class="w-3.5 h-4" viewBox="0 0 24 32" fill="none" aria-hidden="true"><path d="M14 0L4 18h6l-2 14L20 12h-6l2-12z" fill="#00E5FF"/></svg>
+      </span>
+      <span class="font-display font-bold">iDrive<span class="text-cyan-500">Electric</span></span>
+      <span class="text-sm text-bone-200/60 ml-2">&copy; 2026 &mdash; The marketplace for EV drivers</span>
+    </div>
+    <a href="/cdn-cgi/l/email-protection#eb838e878784ab828f99829d8e8e878e889f998288c5888486" class="text-sm text-bone-200/70 hover:text-cyan-400 transition-colors"><span class="__cf_email__" data-cfemail="88e0ede4e4e7c8e1ecfae1feedede4edebfcfae1eba6ebe7e5">[email&#160;protected]</span></a>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>
