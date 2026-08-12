@@ -127,7 +127,7 @@ tailwind.config = {
           <label class="flex-1 flex items-center gap-3 px-4 py-3">
             <svg class="w-5 h-5 text-bone-200/60 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
             <span class="sr-only">Search make or model</span>
-            <input class="bg-transparent text-bone-50 placeholder-bone-200/50 w-full outline-none text-base" placeholder="Try Model 3, Ioniq 5, Lightning..." aria-label="Search EVs">
+            <input type="search" class="bg-transparent text-bone-50 placeholder-bone-200/50 w-full outline-none text-base" placeholder="Try Model 3, Ioniq 5, Lightning..." aria-label="Search EVs">
           </label>
           <div class="hidden sm:block w-px bg-white/10 my-2"></div>
           <label class="flex items-center gap-2 px-4 py-3 text-base text-bone-200/70">
@@ -314,7 +314,7 @@ tailwind.config = {
       </p>
       <form class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto" onsubmit="event.preventDefault(); document.getElementById('thanks').classList.remove('hidden'); document.getElementById('waitlist-form').classList.add('hidden')" id="waitlist-form">
         <label class="flex-1 sr-only" for="waitlist-email">Email address</label>
-        <input id="waitlist-email" type="email" required placeholder="you@example.com" class="flex-1 bg-ink-800 border border-white/10 text-bone-50 placeholder-bone-200/40 px-5 py-4 rounded-xl outline-none focus:border-cyan-500 text-base min-h-[52px]" aria-label="Email address">
+        <input id="waitlist-email" type="email" required placeholder="you@example.com" class="flex-1 bg-ink-800 border border-white/10 text-bone-50 placeholder-bone-200/40 px-5 py-4 rounded-xl outline-none focus:border-cyan-500 text-base min-h-[52px]">
         <button type="submit" class="bg-cyan-500 hover:bg-cyan-400 text-ink-950 font-bold px-7 py-4 rounded-xl transition-colors inline-flex items-center justify-center gap-2 min-h-[52px]">
           Get early access
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
