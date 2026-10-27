@@ -1,0 +1,88 @@
+# Static-site checks for idriveelectric.com.
+#
+# The job id `validate` is the required status check on main, so keep it.
+# Every check is its own step and runs even after an earlier one fails;
+# the last step names every failure. check-run-through.mjs fails the job if
+# a check step loses its `!cancelled()` condition.
+
+name: validate
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out
+        id: checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      # The runner's npm crashes resolving html-validate's optional peer deps
+      # ("Cannot read properties of null (reading 'edgesOut')"), through npx
+      # and plain install alike; --legacy-peer-deps skips peer resolution.
+      - name: Install check tools
+        id: tools
+        run: |
+          npm --version
+          npm install --no-save --no-audit --no-fund --legacy-peer-deps --prefix "$RUNNER_TEMP/tools" html-validate@11.6.2 linkinator@8.0.3
+
+      - name: HTML validation
+        id: html
+        if: ${{ !cancelled() && steps.checkout.outcome == 'success' && steps.tools.outcome == 'success' }}
+        run: |
+          "$RUNNER_TEMP/tools/node_modules/.bin/html-validate" "**/*.html"
+
+      # Only external hosts and Cloudflare's edge-served /cdn-cgi/ paths are skipped;
+      # every same-site link must resolve to a file in the repo.
+      - name: Local links resolve
+        id: links
+        if: ${{ !cancelled() && steps.checkout.outcome == 'success' && steps.tools.outcome == 'success' }}
+        run: |
+          "$RUNNER_TEMP/tools/node_modules/.bin/linkinator" . --recurse --skip '^https?://(?!(localhost|127\.0\.0\.1)[:/])' --skip '/cdn-cgi/'
+
+      - name: No localhost references
+        id: localhost
+        if: ${{ !cancelled() && steps.checkout.outcome == 'success' }}
+        run: |
+          if grep -rEn 'http://localhost|127\.0\.0\.1' --include=*.html --include=*.css --include=*.js --exclude-dir=.git .; then
+            echo "::error::localhost reference found"
+            exit 1
+          fi
+
+      - name: Check steps run after a failure
+        id: runthrough
+        if: ${{ !cancelled() && steps.checkout.outcome == 'success' }}
+        run: node .github/scripts/check-run-through.mjs --setup tools .github/workflows/validate.yml
+
+      - name: Summary
+        if: ${{ always() }}
+        env:
+          HTML: ${{ steps.html.outcome }}
+          LINKS: ${{ steps.links.outcome }}
+          LOCALHOST: ${{ steps.localhost.outcome }}
+          RUNTHROUGH: ${{ steps.runthrough.outcome }}
+        run: |
+          failed=""
+          for pair in "HTML validation=$HTML" "Local links resolve=$LINKS" "No localhost references=$LOCALHOST" "Check steps run after a failure=$RUNTHROUGH"; do
+            echo "${pair%%=*}: ${pair##*=}"
+            [ "${pair##*=}" = "success" ] || failed="$failed ${pair%%=*} (${pair##*=});"
+          done
+          if [ -n "$failed" ]; then
+            echo "::error::Failed checks:$failed"
+            exit 1
+          fi
