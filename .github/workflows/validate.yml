@@ -32,12 +32,14 @@ jobs:
         with:
           persist-credentials: false
 
-      # `npx --yes html-validate@...` fails on the hosted runner with
-      # "npm error Cannot read properties of null (reading 'edgesOut')",
-      # so the pinned tools are installed once into a scratch prefix.
+      # The runner's npm crashes resolving html-validate's optional peer deps
+      # ("Cannot read properties of null (reading 'edgesOut')"), through npx
+      # and plain install alike; --legacy-peer-deps skips peer resolution.
       - name: Install check tools
         id: tools
-        run: npm install --no-save --no-audit --no-fund --prefix "$RUNNER_TEMP/tools" html-validate@11.6.2 linkinator@8.0.3
+        run: |
+          npm --version
+          npm install --no-save --no-audit --no-fund --legacy-peer-deps --prefix "$RUNNER_TEMP/tools" html-validate@11.6.2 linkinator@8.0.3
 
       - name: HTML validation
         id: html
