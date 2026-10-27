@@ -32,17 +32,26 @@ jobs:
         with:
           persist-credentials: false
 
+      # `npx --yes html-validate@...` fails on the hosted runner with
+      # "npm error Cannot read properties of null (reading 'edgesOut')",
+      # so the pinned tools are installed once into a scratch prefix.
+      - name: Install check tools
+        id: tools
+        run: npm install --no-save --no-audit --no-fund --prefix "$RUNNER_TEMP/tools" html-validate@11.6.2 linkinator@8.0.3
+
       - name: HTML validation
         id: html
-        if: ${{ !cancelled() && steps.checkout.outcome == 'success' }}
-        run: npx --yes html-validate@11.6.2 "**/*.html"
+        if: ${{ !cancelled() && steps.checkout.outcome == 'success' && steps.tools.outcome == 'success' }}
+        run: |
+          "$RUNNER_TEMP/tools/node_modules/.bin/html-validate" "**/*.html"
 
       # Only external hosts and Cloudflare's edge-served /cdn-cgi/ paths are skipped;
       # every same-site link must resolve to a file in the repo.
       - name: Local links resolve
         id: links
-        if: ${{ !cancelled() && steps.checkout.outcome == 'success' }}
-        run: npx --yes linkinator@8.0.3 . --recurse --skip '^https?://(?!(localhost|127\.0\.0\.1)[:/])' --skip '/cdn-cgi/'
+        if: ${{ !cancelled() && steps.checkout.outcome == 'success' && steps.tools.outcome == 'success' }}
+        run: |
+          "$RUNNER_TEMP/tools/node_modules/.bin/linkinator" . --recurse --skip '^https?://(?!(localhost|127\.0\.0\.1)[:/])' --skip '/cdn-cgi/'
 
       - name: No localhost references
         id: localhost
@@ -56,7 +65,7 @@ jobs:
       - name: Check steps run after a failure
         id: runthrough
         if: ${{ !cancelled() && steps.checkout.outcome == 'success' }}
-        run: node .github/scripts/check-run-through.mjs .github/workflows/validate.yml
+        run: node .github/scripts/check-run-through.mjs --setup tools .github/workflows/validate.yml
 
       - name: Summary
         if: ${{ always() }}

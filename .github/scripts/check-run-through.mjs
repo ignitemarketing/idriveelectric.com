@@ -1,13 +1,21 @@
 // Fails when a check step in a workflow could be skipped by an earlier failure.
-// Setup steps (actions/checkout) stay fail-fast; every other step needs an
-// `if:` containing `!cancelled()` or `always()`.
-// Usage: node check-run-through.mjs <workflow.yml>...
+// Setup steps (actions/checkout, plus any step id passed with --setup) stay
+// fail-fast; every other step needs an `if:` containing `!cancelled()` or
+// `always()`.
+// Usage: node check-run-through.mjs [--setup <step-id>]... <workflow.yml>...
 import { readFileSync } from 'node:fs';
 
 const indentOf = (line) => line.search(/\S/);
 const problems = [];
+const setupIds = new Set();
+const files = [];
+const args = process.argv.slice(2);
+for (let i = 0; i < args.length; i++) {
+  if (args[i] === '--setup') setupIds.add(args[++i]);
+  else files.push(args[i]);
+}
 
-for (const file of process.argv.slice(2)) {
+for (const file of files) {
   const lines = readFileSync(file, 'utf8').split('\n');
   const steps = [];
   for (let i = 0; i < lines.length; i++) {
@@ -28,6 +36,8 @@ for (const file of process.argv.slice(2)) {
   for (const step of steps) {
     const text = step.join('\n');
     if (/uses:\s*actions\/checkout@/.test(text)) continue;
+    const id = (text.match(/^[\s-]*id:\s*(\S+)/m) || [])[1];
+    if (setupIds.has(id)) continue;
     const name = (text.match(/name:\s*(.+)/) || [, step[0].trim()])[1];
     const cond = (text.match(/^[\s-]*if:\s*(.+)$/m) || [])[1] || '';
     if (!/!cancelled\(\)|always\(\)/.test(cond)) {
