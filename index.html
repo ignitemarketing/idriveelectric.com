@@ -5,34 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>iDriveElectric — The Marketplace for People Who Drive Electric</title>
 <meta name="description" content="Find your next EV. New and used electric vehicles, listed by people who actually own them. Launching soon — get early access.">
+<link rel="canonical" href="https://idriveelectric.com/">
 <meta name="theme-color" content="#00E5FF">
 <meta property="og:title" content="iDriveElectric — The Marketplace for People Who Drive Electric">
 <meta property="og:description" content="New and used electric vehicles, listed by people who actually own them.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://idriveelectric.com">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230A0E1A' rx='6'/%3E%3Cpath d='M12 6l-4 14h6l-2 6 10-14h-6l2-6z' fill='%2300E5FF'/%3E%3C/svg%3E">
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      fontFamily: {
-        display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
-        sans: ['Inter', 'system-ui', 'sans-serif']
-      },
-      colors: {
-        ink:    { 950: '#06080F', 900: '#0A0E1A', 800: '#10172A', 700: '#1A2440', 600: '#2A3658', 500: '#475878' },
-        cyan:   { 300: '#67F5FF', 400: '#33EAFF', 500: '#00E5FF', 600: '#00BCD4' },
-        volt:   { 400: '#4ADE80', 500: '#22C55E', 600: '#16A34A' },
-        bone:   { 50: '#F5F7FA', 100: '#E7ECF3', 200: '#C9D2DE' }
-      }
-    }
-  }
-}
-</script>
+<link rel="stylesheet" href="/style.css">
 <style>
   body { font-family: 'Inter', system-ui, sans-serif; }
   .font-display { font-family: 'Space Grotesk', system-ui, sans-serif; }
@@ -123,7 +105,7 @@ tailwind.config = {
         </p>
 
         <!-- Mock search bar -->
-        <form class="reveal reveal-2 max-w-3xl bg-ink-800/80 border border-white/10 rounded-2xl p-2 flex flex-col sm:flex-row gap-2 backdrop-blur" onsubmit="event.preventDefault(); document.getElementById('waitlist-email').focus(); window.location.hash='#waitlist'">
+        <form class="reveal reveal-2 max-w-3xl bg-ink-800/80 border border-white/10 rounded-2xl p-2 flex flex-col sm:flex-row gap-2 backdrop-blur" onsubmit="event.preventDefault(); window.location.hash='#waitlist'; document.getElementById('waitlist-cta').focus()">
           <label class="flex-1 flex items-center gap-3 px-4 py-3">
             <svg class="w-5 h-5 text-bone-200/60 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
             <span class="sr-only">Search make or model</span>
@@ -309,20 +291,14 @@ tailwind.config = {
         Get in before <span class="grad-cyan-volt">listings open.</span>
       </h2>
       <p class="text-lg text-bone-200/80 max-w-xl mx-auto mb-10">
-        Drop your email. We&rsquo;ll send one note when the marketplace opens &mdash; and
+        Send us your email. We&rsquo;ll send one note when the marketplace opens &mdash; and
         nothing in between. No newsletter, no nurture sequence.
       </p>
-      <form class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto" onsubmit="event.preventDefault(); document.getElementById('thanks').classList.remove('hidden'); document.getElementById('waitlist-form').classList.add('hidden')" id="waitlist-form">
-        <label class="flex-1 sr-only" for="waitlist-email">Email address</label>
-        <input id="waitlist-email" type="email" required placeholder="you@example.com" class="flex-1 bg-ink-800 border border-white/10 text-bone-50 placeholder-bone-200/40 px-5 py-4 rounded-xl outline-none focus:border-cyan-500 text-base min-h-[52px]">
-        <button type="submit" class="bg-cyan-500 hover:bg-cyan-400 text-ink-950 font-bold px-7 py-4 rounded-xl transition-colors inline-flex items-center justify-center gap-2 min-h-[52px]">
-          Get early access
-          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        </button>
-      </form>
-      <div id="thanks" class="hidden bg-volt-500/10 border border-volt-500/30 text-volt-400 rounded-xl px-6 py-4 max-w-lg mx-auto font-medium" role="status" aria-live="polite">
-        Got it. We&rsquo;ll be in touch when listings open.
-      </div>
+      <a id="waitlist-cta" href="mailto:hello@idriveelectric.com?subject=Early%20access" class="bg-cyan-500 hover:bg-cyan-400 text-ink-950 font-bold px-7 py-4 rounded-xl transition-colors inline-flex items-center justify-center gap-2 min-h-[52px]">
+        Get early access
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <p class="text-sm text-bone-200/70 mt-4">Or write to <a href="mailto:hello@idriveelectric.com" class="text-cyan-400 font-semibold">hello@idriveelectric.com</a> with &ldquo;Early access&rdquo; in the subject.</p>
       <p class="text-xs text-bone-200/40 mt-6">No spam. Unsubscribe anytime. We&rsquo;ll never sell your address.</p>
     </div>
   </section>
