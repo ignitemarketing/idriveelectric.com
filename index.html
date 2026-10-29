@@ -23,6 +23,7 @@
     outline-offset: 3px;
     border-radius: 6px;
   }
+  .hp { position: absolute; left: -10000px; }
   .grid-bg {
     background-image:
       linear-gradient(rgba(0,229,255,.06) 1px, transparent 1px),
@@ -294,11 +295,29 @@
         Send us your email. We&rsquo;ll send one note when the marketplace opens &mdash; and
         nothing in between. No newsletter, no nurture sequence.
       </p>
-      <a id="waitlist-cta" href="mailto:hello@idriveelectric.com?subject=Early%20access" class="bg-cyan-500 hover:bg-cyan-400 text-ink-950 font-bold px-7 py-4 rounded-xl transition-colors inline-flex items-center justify-center gap-2 min-h-[52px]">
-        Get early access
-        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-      </a>
-      <p class="text-sm text-bone-200/70 mt-4">Or write to <a href="mailto:hello@idriveelectric.com" class="text-cyan-400 font-semibold">hello@idriveelectric.com</a> with &ldquo;Early access&rdquo; in the subject.</p>
+      <p id="waitlist-sent" class="hidden text-cyan-400 font-semibold mb-6" role="status">Thanks &mdash; you&rsquo;re on the list.</p>
+      <p id="waitlist-error" class="hidden text-red-300 font-semibold mb-6" role="alert">Something went wrong. Please try again, or email us instead.</p>
+      <form action="/api/forms/waitlist" method="post" class="max-w-xl mx-auto flex flex-col gap-4">
+        <input type="hidden" name="_redirect" value="/#waitlist">
+        <div class="hp" aria-hidden="true">
+          <label>Leave this field empty <input type="text" name="company_website" tabindex="-1" autocomplete="off"></label>
+        </div>
+        <label class="sr-only" for="waitlist-cta">Email address</label>
+        <input id="waitlist-cta" type="email" name="email" required autocomplete="email" placeholder="you@example.com" class="bg-ink-800/80 border border-white/10 rounded-xl px-5 py-4 text-bone-50 placeholder-bone-200/50 w-full text-base">
+        <div class="cf-turnstile mx-auto" data-sitekey="0x4AAAAAAFq82v-dLhostaPq"></div>
+        <button type="submit" class="bg-cyan-500 hover:bg-cyan-400 text-ink-950 font-bold px-7 py-4 rounded-xl transition-colors inline-flex items-center justify-center gap-2 min-h-[52px]">
+          Get early access
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </button>
+      </form>
+      <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+      <script>
+        (function () {
+          var f = new URLSearchParams(location.search).get('form');
+          var el = document.getElementById(f === 'sent' ? 'waitlist-sent' : f === 'error' ? 'waitlist-error' : '');
+          if (el) el.classList.remove('hidden');
+        })();
+      </script>
       <p class="text-xs text-bone-200/40 mt-6">No spam. Unsubscribe anytime. We&rsquo;ll never sell your address.</p>
     </div>
   </section>
