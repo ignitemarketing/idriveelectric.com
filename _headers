@@ -2,6 +2,8 @@
 # CSP ships as Report-Only first: check the browser console on the live page
 # after a deploy, then rename it to Content-Security-Policy. Drop
 # cdn.tailwindcss.com and the Google Fonts hosts once those are gone.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
 /*
   Strict-Transport-Security: max-age=31536000
   X-Frame-Options: DENY
