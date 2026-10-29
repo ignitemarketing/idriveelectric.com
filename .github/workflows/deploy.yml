@@ -1,0 +1,43 @@
+# Deploys main to the Cloudflare Pages project idriveelectric-com.
+#
+# The site has no build step (style.css is committed), so the workflow stages
+# the published files into dist/ and leaves out the repo's tooling
+# (.github, src, tailwind.config.js). Needs repo secrets
+# CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID.
+
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Stage site files
+        run: |
+          mkdir dist
+          tar --exclude=./.git --exclude=./.github --exclude=./src --exclude=./tailwind.config.js --exclude=./dist -cf - . | tar -xf - -C dist
+          ls -A dist
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@9acf94ace14e7dc412b076f2c5c20b8ce93c79cd # v3.15.0
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=idriveelectric-com --branch=main
